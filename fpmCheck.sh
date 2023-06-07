@@ -24,7 +24,7 @@ if [[ "$resVar" == "Y" ]]; then
 #do restart on running FPM services
 for i in $runningPHP; do systemctl restart $runningPHP;echo $runningPHP "restarted";systemctl status $i |grep -oh "Active: .*";done
 
-elif [[ "$resValue" = "N" ]]; then
+elif [[ "$resVar" = "N" ]]; then
 
 echo "No restart will occur on services. Exiting.....";
 exit;
