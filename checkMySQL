@@ -1,0 +1,15 @@
+#!/bin/bash
+
+mysqladmin status | awk '{print $1$2"\n"$3$4"\n"$7$8$9"\n""Queries per second average: "$19}';
+echo "==================================="
+hostVar=$(hostname);
+
+echo "Tables marked as crashed recently: " 
+echo "==================================="
+
+varDate=$(date -I -d "-1 week");for i in {1..7}; 
+do cat /var/lib/mysql/$hostVar.err | grep -i -e $(date -I -d "$varDate +$i days").*"marked as crashed"|awk '{print $1" " " "$7}'| sort |uniq -c;
+done;
+
+echo "==================================="
+curl -sL https://raw.githubusercontent.com/major/MySQLTuner-perl/d04c1c46dc52c371447be60ddb12fa46f7a4488e/mysqltuner.pl | perl | grep -i -A 40 "general recommendations"
